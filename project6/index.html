@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>QR Code Generator & Scanner</title>
+    <title>QR Code Generator with Hidden Message</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="https://pyscript.net/releases/2023.05.1/pyscript.css" />
     <script defer src="https://pyscript.net/releases/2023.05.1/pyscript.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
 </head>
 <body>
     <py-config src="./pyscript.toml"></py-config>
     <py-script src="./main.py"></py-script>
 
     <h1>QR Code Generator with Hidden Message</h1>
+    <p>Enter the text to generate a QR code and add a hidden message.</p>
 
     <div>
         <label for="qr_content">QR Code Content:</label>
@@ -27,18 +28,13 @@
     <button id="generate-btn" class="py-button" type="submit">Create QR Code</button>
 
     <h2>Generated QR Code:</h2>
-    <img id="qr_image" />
-    <p id="secret-msg"></p>
+    <img id="qr_image"/>
 
     <h2>Decode Hidden Message</h2>
+    <label for="file-input">Upload a QR Code Image with Hidden Message:</label>
+    <input type="file" id="file-input" accept="image/jpeg, image/png" />
     <button id="decode-btn" class="py-button" type="submit">Decode Hidden Message</button>
+
     <p id="decoded-message">Hidden message will appear here.</p>
-
-    <h2>Scan QR Code from Camera</h2>
-    <button id="scan-btn" class="py-button" type="submit">Open Camera</button>
-    <button id="stop-scan-btn" class="py-button" type="submit">Stop Camera</button>
-    <video id="video" width="600" height="400" autoplay style="display: none;"></video>
-    <canvas id="canvas" width="600" height="400"></canvas>
-
 </body>
 </html>
