@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>QR Code Generator with Hidden Message</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.05.1/pyscript.css" />
+    <script defer src="https://pyscript.net/releases/2023.05.1/pyscript.js"></script>
+</head>
+<body>
+    <py-config src="./pyscript.toml"></py-config>
+    <py-script src="./main.py"></py-script>
+
+    <h1>QR Code Generator with Hidden Message</h1>
+    <p>Enter the text to generate a QR code and add a hidden message.</p>
+
+    <div>
+        <label for="qr_content">QR Code Content:</label>
+        <input id="qr_content" class="py-input" type="text" value="https://pyscript.com" />
+    </div>
+
+    <div>
+        <label for="hidden_message">Hidden Message:</label>
+        <input id="hidden_message" class="py-input" type="text" value="SecretKey123" />
+    </div>
+
+    <button id="generate-btn" class="py-button" type="submit">Create QR Code</button>
+
+    <h2>Generated QR Code:</h2>
+    <img id="qr_image" />
+    <p id="secret-msg"></p>
+
+    <h2>Decode Hidden Message</h2>
+    <button id="decode-btn" class="py-button" type="submit">Decode Hidden Message</button>
+    <p id="decoded-message">Hidden message will appear here.</p>
+</body>
+</html>

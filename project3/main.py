@@ -1,24 +1,11 @@
-import io
-import base64
-import qrcode
-from PIL import Image
+# from pyodide import create_proxy
+from js import document, console, Uint8Array, window, File
+import asyncio
 
-def generate_qr():
-    message = Element("message").element.value
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_H,
-        box_size=10,
-        border=4,
-    )
-    qr.add_data(message)
-    qr.make(fit=True)
-    img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
-    img = hide_message_in_qr(img, message)
-    buffer = io.BytesIO()
-    img.save(buffer, format="PNG")
-    encoded_qr = base64.b64encode(buffer.getvalue()).decode()
-    Element("qr-canvas").element.src = f"data:image/png;base64,{encoded_qr}"
+import io
+from PIL import Image
+import segno
+from pyscript import when
 
 def hide_message_in_qr(img, message):
     message_bytes = message.encode('utf-8')
@@ -42,13 +29,6 @@ def hide_message_in_qr(img, message):
             break
     return img
 
-def decode_qr():
-    file_input = Element("qr-input").element.files[0]
-    if file_input:
-        img = Image.open(io.BytesIO(file_input.read()))
-        decoded_message = extract_message_from_qr(img)
-        Element("decoded-message").element.innerText = decoded_message
-
 def extract_message_from_qr(img):
     pixels = img.load()
     width, height = img.size
@@ -59,7 +39,33 @@ def extract_message_from_qr(img):
             bits += str(r & 1)
     length_bits = bits[:32]
     message_length = int(length_bits, 2)
-    total_message_bits = message_length * 8
-    message_bits = bits[32:32 + total_message_bits]
+    message_bits = bits[32:32 + message_length * 8]
     message_bytes = [int(message_bits[i:i+8], 2) for i in range(0, len(message_bits), 8)]
     return bytes(message_bytes).decode('utf-8')
+
+@when('click', '#generate-btn')
+def generate_qr():
+    content = document.querySelector("#qr_content").value
+    hidden_message = document.querySelector("#hidden_message").value
+    qrcode = segno.make(content, error='h')
+    out = io.BytesIO()
+    qrcode.save(out, scale=5, kind='png')
+    out.seek(0)
+    my_image = Image.open(out)
+    my_image = hide_message_in_qr(my_image, hidden_message)
+    my_stream = io.BytesIO()
+    my_image.save(my_stream, format="PNG")
+    image_file = File.new([Uint8Array.new(my_stream.getvalue())], "qr_with_message.png", {type: "image/png"})
+    img = document.querySelector("#A")
+    img.src = window.URL.createObjectURL(image_file)
+
+@when('click', '#extract-btn')
+def extract_qr():
+    img_element = document.querySelector("#A")
+    img_url = img_element.src
+    response = window.fetch(img_url).then(lambda r: r.arrayBuffer()).then(lambda b: Uint8Array.new(b))
+    def process_image(data):
+        img = Image.open(io.BytesIO(data.to_py()))
+        extracted_message = extract_message_from_qr(img)
+        document.querySelector("#extracted_message").innerText = extracted_message
+    response.then(process_image)
