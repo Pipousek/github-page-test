@@ -1,4 +1,4 @@
-from js import document, console, Uint8Array, window, File, navigator, Object
+from js import document, console, Uint8Array, window, File, navigator, Object, jsQR
 import io
 from PIL import Image
 import segno
@@ -82,34 +82,109 @@ def decode_qr():
 
     asyncio.ensure_future(process_image())
 
+# @when('click', '#scan-btn')
+# def scan_qr():
+#     video = document.querySelector("#video")
+#     video.style.display = "block"
+# 
+#     async def start_camera():
+#         try:
+#             media = Object.new()
+#             media.audio = False
+#             media.video = True
+#             stream = await navigator.mediaDevices.getUserMedia(media)
+#             video.srcObject = stream
+#         except Exception as e:
+#             console.log(f"Camera access error: {e}")
+#     asyncio.ensure_future(start_camera())
+# 
+# @when('click', '#capture-btn')
+# def capture_image():
+#     canvas = document.querySelector("#canvas")
+#     video = document.querySelector("#video")
+#     canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+#     image_data_url = canvas.toDataURL('image/png')
+#     console.log(image_data_url)
+#     async def process_image():
+#         response = await window.fetch(image_data_url)
+#         array_buffer = await response.arrayBuffer()
+#         byte_array = Uint8Array.new(array_buffer)
+#         img = Image.open(io.BytesIO(byte_array.to_py()))
+#         hidden_message = decode_message(img)
+#         document.querySelector("#decoded-message").textContent = f"Hidden Message: {hidden_message}"
+#     asyncio.ensure_future(process_image())
+# 
+# @when('click', '#click-photo')
+# def click_button_click(e):
+#     canvas = document.querySelector("#canvas")
+#     video = document.querySelector("#video")
+#     canvas.getContext('2d').drawImage(video,0,0,canvas.width, canvas.height )
+#     image_data_url = canvas.toDataURL('image/jpeg')
+#     console.log(image_data_url)
+
 @when('click', '#scan-btn')
 def scan_qr():
     video = document.querySelector("#video")
+    canvas = document.querySelector("#canvas")
+    ctx = canvas.getContext('2d')
     video.style.display = "block"
 
     async def start_camera():
         try:
             media = Object.new()
             media.audio = False
-            media.video = True
+            media.video = {'facingMode': 'environment'}  # Use back camera if available
             stream = await navigator.mediaDevices.getUserMedia(media)
             video.srcObject = stream
+            
+            # Start scanning loop
+            scan_loop()
         except Exception as e:
             console.log(f"Camera access error: {e}")
+    
+    def scan_loop():
+        if video.readyState == video.HAVE_ENOUGH_DATA:
+            canvas.height = video.videoHeight
+            canvas.width = video.videoWidth
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+            
+            image_data = ctx.getImageData(0, 0, canvas.width, canvas.height)
+            code = jsQR(image_data.data, image_data.width, image_data.height)
+            
+            if code:
+                # QR code found
+                console.log("Found QR code:", code.data)
+                document.querySelector("#qr_content").value = code.data
+                
+                # Process the image for hidden message
+                process_scanned_image()
+            
+        # Continue scanning
+        window.requestAnimationFrame(scan_loop)
+    
+    async def process_scanned_image():
+        try:
+            # Convert canvas to image
+            image_data_url = canvas.toDataURL('image/png')
+            response = await window.fetch(image_data_url)
+            array_buffer = await response.arrayBuffer()
+            byte_array = Uint8Array.new(array_buffer)
+            img = Image.open(io.BytesIO(byte_array.to_py()))
+            
+            # Decode hidden message
+            hidden_message = decode_message(img)
+            document.querySelector("#decoded-message").textContent = f"Hidden Message: {hidden_message}"
+        except Exception as e:
+            console.log(f"Error processing image: {e}")
+    
     asyncio.ensure_future(start_camera())
 
-@when('click', '#capture-btn')
-def capture_image():
-    canvas = document.querySelector("#canvas")
+@when('click', '#stop-scan-btn')
+def stop_scanning():
     video = document.querySelector("#video")
-    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
-    image_data_url = canvas.toDataURL('image/png')
-    console.log(image_data_url)
-    async def process_image():
-        response = await window.fetch(image_data_url)
-        array_buffer = await response.arrayBuffer()
-        byte_array = Uint8Array.new(array_buffer)
-        img = Image.open(io.BytesIO(byte_array.to_py()))
-        hidden_message = decode_message(img)
-        document.querySelector("#decoded-message").textContent = f"Hidden Message: {hidden_message}"
-    asyncio.ensure_future(process_image())
+    if video.srcObject:
+        tracks = video.srcObject.getTracks()
+        for track in tracks:
+            track.stop()
+        video.srcObject = None
+    video.style.display = "none"

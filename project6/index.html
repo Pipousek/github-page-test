@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="https://pyscript.net/releases/2023.05.1/pyscript.css" />
     <script defer src="https://pyscript.net/releases/2023.05.1/pyscript.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 </head>
 <body>
     <py-config src="./pyscript.toml"></py-config>
@@ -35,7 +36,9 @@
 
     <h2>Scan QR Code from Camera</h2>
     <button id="scan-btn" class="py-button" type="submit">Open Camera</button>
-    <video id="video" width="300" height="300" style="display:none;"></video>
+    <button id="stop-scan-btn" class="py-button" type="submit">Stop Camera</button>
+    <video id="video" width="600" height="400" autoplay style="display: none;"></video>
+    <canvas id="canvas" width="600" height="400"></canvas>
 
 </body>
 </html>
