@@ -1,4 +1,4 @@
-from js import document, console, Uint8Array, window, File, navigator
+from js import document, console, Uint8Array, window, File, navigator, Object
 import io
 from PIL import Image
 import segno
@@ -88,8 +88,28 @@ def scan_qr():
     video.style.display = "block"
 
     async def start_camera():
-        stream = await navigator.mediaDevices.getUserMedia({"video": True})
-        video.srcObject = stream
-        video.play()
-
+        try:
+            media = Object.new()
+            media.audio = False
+            media.video = True
+            stream = await navigator.mediaDevices.getUserMedia(media)
+            video.srcObject = stream
+        except Exception as e:
+            console.log(f"Camera access error: {e}")
     asyncio.ensure_future(start_camera())
+
+@when('click', '#capture-btn')
+def capture_image():
+    canvas = document.querySelector("#canvas")
+    video = document.querySelector("#video")
+    canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+    image_data_url = canvas.toDataURL('image/png')
+    console.log(image_data_url)
+    async def process_image():
+        response = await window.fetch(image_data_url)
+        array_buffer = await response.arrayBuffer()
+        byte_array = Uint8Array.new(array_buffer)
+        img = Image.open(io.BytesIO(byte_array.to_py()))
+        hidden_message = decode_message(img)
+        document.querySelector("#decoded-message").textContent = f"Hidden Message: {hidden_message}"
+    asyncio.ensure_future(process_image())
