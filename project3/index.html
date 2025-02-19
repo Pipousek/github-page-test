@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Steganography</title>
+    <!-- PyScript CSS -->
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+    <!-- CSS for examples -->
+    <link rel="stylesheet" href="./assets/css/examples.css" />
+    <!-- This script tag bootstraps PyScript -->
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    <!-- for splashscreen -->
+    <style>
+        #loading { outline: none; border: none; background: transparent }
+    </style>
+    <script type="module">
+        const loading = document.getElementById('loading');
+        addEventListener('py:ready', () => loading.close());
+        loading.showModal();
+    </script>
+</head>
+<body>
+    <dialog id="loading">
+        <h1>Loading...</h1>
+    </dialog>
+
+    <h1>QR Code with Hidden Message</h1>
+    <label for="message">Enter Message:</label>
+    <input type="text" id="message">
+    <button py-click="generate_qr">Generate QR</button>
+    <br><br>
+    <img id="qr-code" alt="Generated QR Code">
+    <br><br>
+    <label for="qr-input">Upload QR Code:</label>
+    <input type="file" id="qr-input" accept="image/png">
+    <button py-click="decode_qr">Decode QR</button>
+    <br><br>
+    <p><strong>Decoded Message:</strong> <span id="decoded-message"></span></p>
+    <py-script src="main.py"></py-script>
+</body>
+</html>
