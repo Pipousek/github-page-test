@@ -195,7 +195,7 @@ def scan_qr():
         try:
             media = Object.new()
             media.audio = False
-            media.video = {'facingMode': 'environment'}  # Použije zadní kameru, pokud je dostupná
+            media.video = {'facingMode': {'exact': 'environment'}}  # Použije zadní kameru, pokud je dostupná
             stream = await navigator.mediaDevices.getUserMedia(media)
             video.srcObject = stream
             
