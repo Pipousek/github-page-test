@@ -4,6 +4,7 @@ from PIL import Image
 import segno
 from pyscript import when
 import asyncio
+from pyodide.ffi import create_proxy
 
 def encode_message(image, message):
     """Encode a hidden message in the least significant bits of the QR code image."""
@@ -122,6 +123,67 @@ def decode_qr():
 #     image_data_url = canvas.toDataURL('image/jpeg')
 #     console.log(image_data_url)
 
+
+
+# @when('click', '#scan-btn')
+# def scan_qr():
+#     video = document.querySelector("#video")
+#     canvas = document.querySelector("#canvas")
+#     ctx = canvas.getContext('2d')
+#     video.style.display = "block"
+# 
+#     async def start_camera():
+#         try:
+#             media = Object.new()
+#             media.audio = False
+#             media.video = {'facingMode': 'environment'}  # Použije zadní kameru, pokud je dostupná
+#             stream = await navigator.mediaDevices.getUserMedia(media)
+#             video.srcObject = stream
+#             
+#             # Vytvoření proxy pro zachování reference na scanovací smyčku
+#             global scan_proxy
+#             scan_proxy = create_proxy(scan_loop)
+#             window.requestAnimationFrame(scan_proxy)
+#         except Exception as e:
+#             console.log(f"Chyba při přístupu ke kameře: {e}")
+#     
+#     def scan_loop(timestamp):  # Přidání parametru timestamp
+#         if video.readyState == video.HAVE_ENOUGH_DATA:
+#             canvas.height = video.videoHeight
+#             canvas.width = video.videoWidth
+#             ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+#             
+#             image_data = ctx.getImageData(0, 0, canvas.width, canvas.height)
+#             code = jsQR(image_data.data, image_data.width, image_data.height)
+#             
+#             if code:
+#                 console.log("Nalezen QR kód:", code.data)
+#                 document.querySelector("#qr_content").value = code.data
+#                 
+#                 # Zpracování skenovaného obrázku pro skrytou zprávu
+#                 asyncio.ensure_future(process_scanned_image())
+# 
+#         # Pokračování ve skenování
+#         window.requestAnimationFrame(scan_proxy)
+#     
+#     async def process_scanned_image():
+#         try:
+#             image_data_url = canvas.toDataURL('image/png')
+#             response = await window.fetch(image_data_url)
+#             array_buffer = await response.arrayBuffer()
+#             byte_array = Uint8Array.new(array_buffer)
+#             img = Image.open(io.BytesIO(byte_array.to_py()))
+#             img = img.convert("RGB")
+#             
+#             hidden_message = decode_message(img)
+#             document.querySelector("#decoded-message").textContent = f"Skrytá zpráva: {hidden_message}"
+#         except Exception as e:
+#             console.log(f"Chyba při zpracování obrázku: {e}")
+#     
+#     asyncio.ensure_future(start_camera())
+
+
+
 @when('click', '#scan-btn')
 def scan_qr():
     video = document.querySelector("#video")
@@ -133,16 +195,30 @@ def scan_qr():
         try:
             media = Object.new()
             media.audio = False
-            media.video = {'facingMode': 'environment'}  # Use back camera if available
+            media.video = {'facingMode': 'environment'}  # Použije zadní kameru, pokud je dostupná
             stream = await navigator.mediaDevices.getUserMedia(media)
             video.srcObject = stream
             
-            # Start scanning loop
-            scan_loop()
+            # Vytvoření proxy pro zachování reference na scanovací smyčku
+            global scan_proxy, scanning
+            scanning = True
+            scan_proxy = create_proxy(scan_loop)
+            window.requestAnimationFrame(scan_proxy)
         except Exception as e:
-            console.log(f"Camera access error: {e}")
-    
-    def scan_loop():
+            console.log(f"Chyba při přístupu ke kameře: {e}")
+
+    def stop_camera():
+        if video.srcObject:
+            for track in video.srcObject.getTracks():
+                track.stop()
+            video.srcObject = None
+            video.style.display = "none"
+
+    def scan_loop(timestamp):  # Přidání parametru timestamp
+        global scanning
+        if not scanning:
+            return  # Zastaví skenování, pokud již nemá pokračovat
+        
         if video.readyState == video.HAVE_ENOUGH_DATA:
             canvas.height = video.videoHeight
             canvas.width = video.videoWidth
@@ -152,32 +228,35 @@ def scan_qr():
             code = jsQR(image_data.data, image_data.width, image_data.height)
             
             if code:
-                # QR code found
-                console.log("Found QR code:", code.data)
+                console.log("Nalezen QR kód:", code.data)
                 document.querySelector("#qr_content").value = code.data
                 
-                # Process the image for hidden message
-                process_scanned_image()
-            
-        # Continue scanning
-        window.requestAnimationFrame(scan_loop)
-    
+                # Zastavení kamery a skenování
+                scanning = False
+                stop_camera()
+                
+                # Zpracování skenovaného obrázku pro skrytou zprávu
+                asyncio.ensure_future(process_scanned_image())
+                return  # Ukončí smyčku
+        
+        # Pokračování ve skenování
+        window.requestAnimationFrame(scan_proxy)
+
     async def process_scanned_image():
         try:
-            # Convert canvas to image
             image_data_url = canvas.toDataURL('image/png')
             response = await window.fetch(image_data_url)
             array_buffer = await response.arrayBuffer()
             byte_array = Uint8Array.new(array_buffer)
             img = Image.open(io.BytesIO(byte_array.to_py()))
+            img = img.convert("RGB")
             
-            # Decode hidden message
             hidden_message = decode_message(img)
-            document.querySelector("#decoded-message").textContent = f"Hidden Message: {hidden_message}"
+            document.querySelector("#decoded-message").textContent = f"Skrytá zpráva: {hidden_message}"
         except Exception as e:
-            console.log(f"Error processing image: {e}")
-    
+            console.log(f"Chyba při zpracování obrázku: {e}")
     asyncio.ensure_future(start_camera())
+
 
 @when('click', '#stop-scan-btn')
 def stop_scanning():
