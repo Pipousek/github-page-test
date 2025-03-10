@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>QR Code Generator - Decode</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.05.1/pyscript.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://pyscript.net/releases/2023.05.1/pyscript.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <py-config src="./pyscript.toml"></py-config>
+    <py-script src="./main.py"></py-script>
+    
+    <header>
+        <h1>QR Code Generator with Watermark, Hidden Message and Digital Signature</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Create QR Code</a></li>
+                <li><a href="decode.html" class="active">Decode QR Code</a></li>
+                <li><a href="verify.html">Verify Signature</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h2>Decode External QR Code</h2>
+        <div class="form-group">
+            <label for="file-input">Upload a QR Code Image with Hidden Message:</label>
+            <input type="file" id="file-input" accept="image/jpeg, image/png" />
+        </div>
+        
+        <div class="qr-display">
+            <h3>Uploaded QR Code:</h3>
+            <img id="qr_image" alt="Uploaded QR Code"/>
+        </div>
+        
+        <button id="decode-btn" class="py-button" type="submit">Decode Hidden Message</button>
+        <p id="decoded-message">Hidden message will appear here.</p>
+    </div>
+    
+    <!-- Hidden fields needed for pyscript but not visible in the UI -->
+    <div style="display: none;">
+        <div id="website-section" class="input-section active"></div>
+        <select id="qr_mode">
+            <option value="text" selected>Plain Text</option>
+        </select>
+    </div>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>QR Code Generator with Watermark, Hidden Message and Digital Signature</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.05.1/pyscript.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://pyscript.net/releases/2023.05.1/pyscript.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <py-config src="./pyscript.toml"></py-config>
+    <py-script src="./main.py"></py-script>
+    
+    <h1>QR Code Generator with Watermark, Hidden Message and Digital Signature</h1>
+    
+    <div class="container">
+        <h2>Create QR Code</h2>
+        
+        <div class="form-group">
+            <label for="qr_mode">QR Code Type:</label>
+            <select id="qr_mode" class="py-input">
+                <option value="website">Website URL</option>
+                <option value="text">Plain Text</option>
+                <option value="contact">Contact Information</option>
+                <option value="email">Email</option>
+                <option value="wifi">WiFi Network</option>
+                <option value="location">Geographic Location</option>
+            </select>
+        </div>
+        
+        <!-- Website URL Section -->
+        <div id="website-section" class="input-section active">
+            <div class="form-group">
+                <label for="website_url">Website URL:</label>
+                <input id="website_url" class="py-input" type="text" value="https://pyscript.com" placeholder="https://example.com" />
+            </div>
+        </div>
+        
+        <!-- Plain Text Section -->
+        <div id="text-section" class="input-section">
+            <div class="form-group">
+                <label for="text_content">Text Content:</label>
+                <textarea id="text_content" class="py-input" rows="3" placeholder="Enter your text message"></textarea>
+            </div>
+        </div>
+        
+        <!-- Contact Section -->
+        <div id="contact-section" class="input-section">
+            <div class="form-group">
+                <label for="contact_name">Name:</label>
+                <input id="contact_name" class="py-input" type="text" placeholder="John Doe" />
+            </div>
+            <div class="form-group">
+                <label for="contact_phone">Phone Number:</label>
+                <input id="contact_phone" class="py-input" type="text" placeholder="+1234567890" />
+            </div>
+            <div class="form-group">
+                <label for="contact_email">Email:</label>
+                <input id="contact_email" class="py-input" type="text" placeholder="john@example.com" />
+            </div>
+            <div class="form-group">
+                <label for="contact_address">Address:</label>
+                <textarea id="contact_address" class="py-input" rows="2" placeholder="123 Main St, City, Country"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="contact_website">Website:</label>
+                <input id="contact_website" class="py-input" type="text" placeholder="https://example.com" />
+            </div>
+        </div>
+        
+        <!-- Email Section -->
+        <div id="email-section" class="input-section">
+            <div class="form-group">
+                <label for="email_address">Email Address:</label>
+                <input id="email_address" class="py-input" type="text" placeholder="someone@example.com" />
+            </div>
+            <div class="form-group">
+                <label for="email_subject">Subject:</label>
+                <input id="email_subject" class="py-input" type="text" placeholder="Email Subject" />
+            </div>
+            <div class="form-group">
+                <label for="email_body">Body:</label>
+                <textarea id="email_body" class="py-input" rows="3" placeholder="Email body text"></textarea>
+            </div>
+        </div>
+        
+        <!-- WiFi Section -->
+        <div id="wifi-section" class="input-section">
+            <div class="form-group">
+                <label for="wifi_ssid">Network Name (SSID):</label>
+                <input id="wifi_ssid" class="py-input" type="text" placeholder="WiFi Network Name" />
+            </div>
+            <div class="form-group">
+                <label for="wifi_password">Password:</label>
+                <input id="wifi_password" class="py-input" type="text" placeholder="WiFi Password" />
+            </div>
+            <div class="form-group">
+                <label for="wifi_encryption">Encryption Type:</label>
+                <select id="wifi_encryption" class="py-input">
+                    <option value="WPA">WPA/WPA2</option>
+                    <option value="WEP">WEP</option>
+                    <option value="nopass">None</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="wifi_hidden">Hidden Network:</label>
+                <select id="wifi_hidden" class="py-input">
+                    <option value="false">No</option>
+                    <option value="true">Yes</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Location Section -->
+        <div id="location-section" class="input-section">
+            <div class="form-group">
+                <label for="location_latitude">Latitude:</label>
+                <input id="location_latitude" class="py-input" type="text" placeholder="e.g., 37.7749" />
+            </div>
+            <div class="form-group">
+                <label for="location_longitude">Longitude:</label>
+                <input id="location_longitude" class="py-input" type="text" placeholder="e.g., -122.4194" />
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="hidden_message">Hidden Message:</label>
+            <input id="hidden_message" class="py-input" type="text" value="SecretKey123" />
+        </div>
+        
+        <!-- Ed25519 Digital Signature Section -->
+        <div class="form-group signature-section">
+            <h3>Digital Signature</h3>
+            <div class="form-group">
+                <label for="private-key-input">Upload ED25519 Private Key (Optional):</label>
+                <input type="file" id="private-key-input" />
+                <div id="key-status">No key loaded</div>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="signature-checkbox" disabled /> Sign QR code content with ED25519
+                </label>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="watermark-input">Watermark Image (optional):</label>
+            <input type="file" id="watermark-input" accept="image/*" />
+            <div class="preview-container">
+                <img id="watermark-preview" alt="Watermark Preview" />
+                <div>
+                    <label for="watermark-opacity">Watermark Opacity:</label>
+                    <input type="range" id="watermark-opacity" min="0.1" max="0.9" step="0.1" value="0.3" />
+                </div>
+            </div>
+        </div>
+        
+        <button id="generate-btn" class="py-button" type="submit">Create QR Code</button>
+        <div id="status-message"></div>
+    </div>
+    
+    <div class="container">
+        <h2>Generated QR Code:</h2>
+        <img id="qr_image"/>
+        <div style="margin-top: 10px;">
+            <button id="decode-btn" class="py-button" type="submit">Decode Hidden Message</button>
+            <p id="decoded-message">Hidden message will appear here.</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>Decode External QR Code</h2>
+        <div class="form-group">
+            <label for="file-input">Upload a QR Code Image with Hidden Message:</label>
+            <input type="file" id="file-input" accept="image/jpeg, image/png" />
+        </div>
+        <!-- We're using the same decode button and message area for both generated and uploaded QR codes -->
+    </div>
+
+    <!-- Signature Verification Section -->
+    <div class="container">
+    <h2>Verify QR Code Signature</h2>
+    <div class="form-group">
+        <label for="public-key-input">Upload ED25519 Public Key:</label>
+        <input type="file" id="public-key-input" />
+        <div id="verify-key-status">No key loaded</div>
+    </div>
+    <button id="verify-signature-btn" class="py-button" disabled>Verify Signature</button>
+    <p id="verification-result">Load a QR code and public key to verify signature.</p>
+</div>
+</body>
+</html>

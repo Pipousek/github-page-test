@@ -1,0 +1,1 @@
+packages = ['segno', 'pillow', 'numpy', 'opencv-python', 'pyodide-py', 'qrcode', 'PyNaCl']

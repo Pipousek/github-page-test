@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>QR Code Generator - Verify</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://pyscript.net/releases/2023.05.1/pyscript.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://pyscript.net/releases/2023.05.1/pyscript.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <py-config src="./pyscript.toml"></py-config>
+    <py-script src="./main.py"></py-script>
+    
+    <header>
+        <h1>QR Code Generator with Watermark, Hidden Message and Digital Signature</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Create QR Code</a></li>
+                <li><a href="decode.html">Decode QR Code</a></li>
+                <li><a href="verify.html" class="active">Verify Signature</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <h2>Verify QR Code Signature</h2>
+        <div class="form-group">
+            <label for="file-input">Upload a QR Code Image to Verify:</label>
+            <input type="file" id="file-input" accept="image/jpeg, image/png" />
+        </div>
+        
+        <div class="form-group">
+            <label for="public-key-input">Upload ED25519 Public Key:</label>
+            <input type="file" id="public-key-input" />
+            <div id="verify-key-status">No key loaded</div>
+        </div>
+        
+        <div class="qr-display">
+            <h3>Uploaded QR Code:</h3>
+            <img id="qr_image" alt="Uploaded QR Code"/>
+        </div>
+        
+        <button id="verify-signature-btn" class="py-button" disabled>Verify Signature</button>
+        <p id="verification-result">Load a QR code and public key to verify signature.</p>
+    </div>
+    
+    <!-- Hidden fields needed for pyscript but not visible in the UI -->
+    <div style="display: none;">
+        <div id="website-section" class="input-section active"></div>
+        <select id="qr_mode">
+            <option value="text" selected>Plain Text</option>
+        </select>
+    </div>
+</body>
+</html>
