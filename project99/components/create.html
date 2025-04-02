@@ -1,0 +1,186 @@
+<!-- Create QR Code Section -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2 class="mb-0 fs-4" data-i18n="create.title">Create QR Code</h2>
+    </div>
+    <div class="card-body">
+        <div class="mb-3">
+            <label for="qr_mode_visible" class="form-label" data-i18n="create.qrType">QR Code Type:</label>
+            <select id="qr_mode_visible" class="form-select py-input col-sm-8">
+                <option value="website" data-i18n="create.types.website">Website URL</option>
+                <option value="text" data-i18n="create.types.text">Plain Text</option>
+                <option value="contact" data-i18n="create.types.contact">Contact Information</option>
+                <option value="email" data-i18n="create.types.email">Email</option>
+                <option value="wifi" data-i18n="create.types.wifi">WiFi Network</option>
+                <option value="location" data-i18n="create.types.location">Geographic Location</option>
+            </select>
+        </div>
+
+        <!-- Website URL Section -->
+        <div id="website-section" class="input-section active">
+            <div class="mb-3">
+                <label for="website_url" class="form-label" data-i18n="create.website.url">Website URL:</label>
+                <input id="website_url" class="form-control py-input" type="text"
+                    value="https://pyscript.com" placeholder="https://example.com" />
+            </div>
+        </div>
+
+        <!-- Plain Text Section -->
+        <div id="text-section" class="input-section">
+            <div class="mb-3">
+                <label for="text_content" class="form-label" data-i18n="create.text.content">Text Content:</label>
+                <textarea id="text_content" class="form-control py-input" rows="3"
+                    placeholder="Enter your text message"></textarea>
+            </div>
+        </div>
+
+        <!-- Contact Section -->
+        <div id="contact-section" class="input-section">
+            <div class="mb-3">
+                <label for="contact_name" class="form-label" data-i18n="create.contact.name">Name:</label>
+                <input id="contact_name" class="form-control py-input" type="text" placeholder="John Doe" />
+            </div>
+            <div class="mb-3">
+                <label for="contact_phone" class="form-label" data-i18n="create.contact.phone">Phone Number:</label>
+                <input id="contact_phone" class="form-control py-input" type="text"
+                    placeholder="+1234567890" />
+            </div>
+            <div class="mb-3">
+                <label for="contact_email" class="form-label" data-i18n="create.contact.email">Email:</label>
+                <input id="contact_email" class="form-control py-input" type="text"
+                    placeholder="john@example.com" />
+            </div>
+            <div class="mb-3">
+                <label for="contact_address" class="form-label" data-i18n="create.contact.address">Address:</label>
+                <textarea id="contact_address" class="form-control py-input" rows="2"
+                    placeholder="123 Main St, City, Country"></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="contact_website" class="form-label" data-i18n="create.contact.website">Website:</label>
+                <input id="contact_website" class="form-control py-input" type="text"
+                    placeholder="https://example.com" />
+            </div>
+        </div>
+
+        <!-- Email Section -->
+        <div id="email-section" class="input-section">
+            <div class="mb-3">
+                <label for="email_address" class="form-label" data-i18n="create.email.address">Email Address:</label>
+                <input id="email_address" class="form-control py-input" type="text"
+                    placeholder="someone@example.com" />
+            </div>
+            <div class="mb-3">
+                <label for="email_subject" class="form-label" data-i18n="create.email.subject">Subject:</label>
+                <input id="email_subject" class="form-control py-input" type="text"
+                    placeholder="Email Subject" />
+            </div>
+            <div class="mb-3">
+                <label for="email_body" class="form-label" data-i18n="create.email.body">Body:</label>
+                <textarea id="email_body" class="form-control py-input" rows="3"
+                    placeholder="Email body text"></textarea>
+            </div>
+        </div>
+
+        <!-- WiFi Section -->
+        <div id="wifi-section" class="input-section">
+            <div class="mb-3">
+                <label for="wifi_ssid" class="form-label" data-i18n="create.wifi.ssid">Network Name (SSID):</label>
+                <input id="wifi_ssid" class="form-control py-input" type="text"
+                    placeholder="WiFi Network Name" />
+            </div>
+            <div class="mb-3">
+                <label for="wifi_password" class="form-label" data-i18n="create.wifi.password">Password:</label>
+                <input id="wifi_password" class="form-control py-input" type="text"
+                    placeholder="WiFi Password" />
+            </div>
+            <div class="mb-3">
+                <label for="wifi_encryption" class="form-label" data-i18n="create.wifi.encryption">Encryption Type:</label>
+                <select id="wifi_encryption" class="form-select py-input">
+                    <option value="WPA" data-i18n="create.wifi.encryptionTypes.wpa">WPA/WPA2</option>
+                    <option value="WEP" data-i18n="create.wifi.encryptionTypes.wep">WEP</option>
+                    <option value="nopass" data-i18n="create.wifi.encryptionTypes.nopass">None</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="wifi_hidden" class="form-label" data-i18n="create.wifi.hidden">Hidden Network:</label>
+                <select id="wifi_hidden" class="form-select py-input">
+                    <option value="false" data-i18n="create.wifi.hiddenOptions.false">No</option>
+                    <option value="true" data-i18n="create.wifi.hiddenOptions.true">Yes</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Location Section -->
+        <div id="location-section" class="input-section">
+            <div class="mb-3">
+                <label for="location_latitude" class="form-label" data-i18n="create.location.latitude">Latitude:</label>
+                <input id="location_latitude" class="form-control py-input" type="text"
+                    placeholder="e.g., 37.7749" />
+            </div>
+            <div class="mb-3">
+                <label for="location_longitude" class="form-label" data-i18n="create.location.longitude">Longitude:</label>
+                <input id="location_longitude" class="form-control py-input" type="text"
+                    placeholder="e.g., -122.4194" />
+            </div>
+        </div>
+
+        <!-- Ed25519 Digital Signature Section -->
+        <div class="mb-4 card">
+            <div class="card-header">
+                <h3 class="mb-0 fs-5" data-i18n="create.signature.title">Digital Signature</h3>
+            </div>
+            <div class="file-drop-area mb-3">
+                <label for="private-key-input" class="form-label" data-i18n="create.signature.uploadPrivateKey">Upload Private Key (ED25519 or RSA):</label>
+                <div class="file-drop-container">
+                    <i class="fas fa-cloud-upload-alt file-drop-icon"></i>
+                    <span class="file-drop-message" data-i18n="create.signature.dropPrivateKey">Drag & drop your private key file here or click to browse</span>
+                    <input type="file" id="private-key-input" class="file-drop-input" />
+                </div>
+                <div id="key-status" class="form-text text-muted" data-i18n="create.signature.noKeyLoaded">No key loaded (supports ED25519 and RSA)</div>
+            </div>
+        </div>
+
+        <div class="file-drop-area mb-3">
+            <label for="watermark-input" class="form-label" data-i18n="create.watermark.title">Watermark Image (optional):</label>
+            <div class="file-drop-container">
+                <i class="fas fa-cloud-upload-alt file-drop-icon"></i>
+                <span class="file-drop-message" data-i18n="create.watermark.dropWatermark">Drag & drop your watermark image here or click to browse</span>
+                <input type="file" id="watermark-input" class="file-drop-input" accept="image/*" />
+            </div>
+            <div id="watermark-controls" style="display: none;">
+                <div class="row align-items-center mt-2">
+                    <div class="col-4 mb-2 mb-sm-0">
+                        <img id="watermark-preview" class="img-thumbnail" alt="Watermark Preview" />
+                    </div>
+                    <div class="col-8">
+                        <label for="watermark-opacity" class="form-label" data-i18n="create.watermark.opacity">Watermark Opacity:</label>
+                        <input type="range" id="watermark-opacity" class="form-range" min="0.1" max="0.9" step="0.1" value="0.3" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="generate-btn" class="btn btn-primary py-button w-100" type="submit" data-i18n="create.buttons.create">Create QR Code</button>
+    <div id="status-message" class="mt-2 text-center"></div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h2 class="mb-0 fs-4" data-i18n="create.generated.title">Generated QR Code:</h2>
+    </div>
+    <div class="card-body text-center">
+        <img id="qr_image" class="img-fluid mx-auto d-block border" />
+        <div class="mt-3">
+            <button id="decode-btn" class="btn btn-secondary py-button" type="submit" data-i18n="create.buttons.decode">Decode Hidden Message</button>
+            <p id="decoded-message" class="mt-2" data-i18n="create.generated.hiddenMessage">Hidden message will appear here.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden fields to stay compatible with PyScript -->
+<div style="display: none;">
+    <select id="qr_mode">
+        <option value="website" selected>Website URL</option>
+    </select>
+</div>

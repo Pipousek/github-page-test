@@ -1,0 +1,108 @@
+{
+    "nav": {
+        "create": "Vytvořit QR kód",
+        "decode": "Dekódovat QR kód",
+        "verify": "Ověřit podpis"
+    },
+    "app": {
+        "title": "Generátor QR kódů",
+        "subtitle": "s vodoznakem, skrytou zprávou a digitálním podpisem"
+    },
+    "create": {
+        "title": "Vytvořit QR kód",
+        "qrType": "Typ QR kódu:",
+        "types": {
+            "website": "Webová adresa",
+            "text": "Prostý text",
+            "contact": "Kontaktní informace",
+            "email": "Email",
+            "wifi": "WiFi síť",
+            "location": "Geografická poloha"
+        },
+        "website": {
+            "url": "Webová adresa:"
+        },
+        "text": {
+            "content": "Textový obsah:"
+        },
+        "contact": {
+            "name": "Jméno:",
+            "phone": "Telefonní číslo:",
+            "email": "Email:",
+            "address": "Adresa:",
+            "website": "Webová stránka:"
+        },
+        "email": {
+            "address": "Emailová adresa:",
+            "subject": "Předmět:",
+            "body": "Tělo zprávy:"
+        },
+        "wifi": {
+            "ssid": "Název sítě (SSID):",
+            "password": "Heslo:",
+            "encryption": "Typ šifrování:",
+            "encryptionTypes": {
+                "wpa": "WPA/WPA2",
+                "wep": "WEP",
+                "nopass": "Žádné"
+            },
+            "hidden": "Skrytá síť:",
+            "hiddenOptions": {
+                "false": "Ne",
+                "true": "Ano"
+            }
+        },
+        "location": {
+            "latitude": "Zeměpisná šířka:",
+            "longitude": "Zeměpisná délka:"
+        },
+        "signature": {
+            "title": "Digitální podpis",
+            "uploadPrivateKey": "Nahrát soukromý klíč (ED25519 nebo RSA):",
+            "dropPrivateKey": "Přetáhněte sem soubor soukromého klíče nebo klikněte pro procházení",
+            "noKeyLoaded": "Žádný klíč nenačten (podporuje ED25519 a RSA)"
+        },
+        "watermark": {
+            "title": "Obrázek vodoznaku (volitelné):",
+            "dropWatermark": "Přetáhněte sem obrázek vodoznaku nebo klikněte pro procházení",
+            "opacity": "Průhlednost vodoznaku:"
+        },
+        "buttons": {
+            "create": "Vytvořit QR kód",
+            "decode": "Dekódovat skrytou zprávu",
+            "downloadSignature": "Stáhnout digitální podpis"
+        },
+        "generated": {
+            "title": "Vygenerovaný QR kód:",
+            "hiddenMessage": "Zde se zobrazí skrytá zpráva."
+        },
+        "stegMethods": {
+            "lsb": "LSB (Least Significant Bit)",
+            "dct": "DCT (Discrete Cosine Transform)",
+            "dwt": "DWT (Discrete Wavelet Transform)"
+        }
+    },
+    "decode": {
+        "title": "Dekódovat externí QR kód",
+        "uploadQR": "Nahrát obrázek QR kódu se skrytou zprávou:",
+        "dropQR": "Přetáhněte sem obrázek QR kódu nebo klikněte pro procházení",
+        "uploadedQR": "Nahraný QR kód:",
+        "button": "Dekódovat skrytou zprávu",
+        "message": "Zde se zobrazí skrytá zpráva."
+    },
+    "verify": {
+        "title": "Ověřit podpis QR kódu",
+        "uploadQR": "Nahrát obrázek QR kódu k ověření:",
+        "dropQR": "Přetáhněte sem obrázek QR kódu nebo klikněte pro procházení",
+        "uploadPublicKey": "Nahrát veřejný klíč (ED25519 nebo RSA):",
+        "dropPublicKey": "Přetáhněte sem soubor veřejného klíče nebo klikněte pro procházení",
+        "noKeyLoaded": "Žádný klíč nenačten (podporuje ED25519 a RSA)",
+        "uploadedQR": "Nahraný QR kód:",
+        "button": "Ověřit podpis",
+        "result": "Nahrajte QR kód a veřejný klíč pro ověření podpisu."
+    },
+    "fileUpload": {
+        "remove": "Odstranit soubor",
+        "dragDrop": "Přetáhněte sem soubor nebo klikněte pro procházení"
+    }
+}

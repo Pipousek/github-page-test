@@ -1,0 +1,35 @@
+<!-- Verify Signature Section -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h2 class="mb-0 fs-4" data-i18n="verify.title">Verify QR Code Signature</h2>
+    </div>
+    <div class="card-body">
+        <div class="file-drop-area mb-3">
+            <label for="verify-file-input" class="form-label" data-i18n="verify.uploadQR">Upload a QR Code Image to Verify:</label>
+            <div class="file-drop-container">
+                <i class="fas fa-cloud-upload-alt file-drop-icon"></i>
+                <span class="file-drop-message" data-i18n="verify.dropQR">Drag & drop your QR code image here or click to browse</span>
+                <input type="file" id="verify-file-input" class="file-drop-input"
+                    accept="image/jpeg, image/png" />
+            </div>
+        </div>
+
+        <div class="file-drop-area mb-3">
+            <label for="public-key-input" class="form-label" data-i18n="verify.uploadPublicKey">Upload Public Key (ED25519 or RSA):</label>
+            <div class="file-drop-container">
+                <i class="fas fa-cloud-upload-alt file-drop-icon"></i>
+                <span class="file-drop-message" data-i18n="verify.dropPublicKey">Drag & drop your public key file here or click to browse</span>
+                <input type="file" id="public-key-input" class="file-drop-input" />
+            </div>
+            <div id="verify-key-status" class="form-text text-muted" data-i18n="verify.noKeyLoaded">No key loaded (supports ED25519 and RSA)</div>
+        </div>
+
+        <div class="text-center mb-3">
+            <h3 class="fs-5 mb-2" data-i18n="verify.uploadedQR">Uploaded QR Code:</h3>
+            <img id="verify-qr_image" class="img-fluid mx-auto d-block border" alt="Uploaded QR Code" />
+        </div>
+
+        <button id="verify-signature-btn" class="btn btn-primary py-button w-100" disabled data-i18n="verify.button">Verify Signature</button>
+        <p id="verification-result" class="mt-2 text-center" data-i18n="verify.result">Load a QR code and public key to verify signature.</p>
+    </div>
+</div>

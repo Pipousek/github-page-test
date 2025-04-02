@@ -1,0 +1,102 @@
+{
+    "nav": {
+        "create": "Create QR Code",
+        "decode": "Decode QR Code",
+        "verify": "Verify Signature"
+    },
+    "app": {
+        "title": "QR Code Generator",
+        "subtitle": "with Watermark, Hidden Message and Digital Signature"
+    },
+    "create": {
+        "title": "Create QR Code",
+        "qrType": "QR Code Type:",
+        "types": {
+            "website": "Website URL",
+            "text": "Plain Text",
+            "contact": "Contact Information",
+            "email": "Email",
+            "wifi": "WiFi Network",
+            "location": "Geographic Location"
+        },
+        "website": {
+            "url": "Website URL:"
+        },
+        "text": {
+            "content": "Text Content:"
+        },
+        "contact": {
+            "name": "Name:",
+            "phone": "Phone Number:",
+            "email": "Email:",
+            "address": "Address:",
+            "website": "Website:"
+        },
+        "email": {
+            "address": "Email Address:",
+            "subject": "Subject:",
+            "body": "Body:"
+        },
+        "wifi": {
+            "ssid": "Network Name (SSID):",
+            "password": "Password:",
+            "encryption": "Encryption Type:",
+            "encryptionTypes": {
+                "wpa": "WPA/WPA2",
+                "wep": "WEP",
+                "nopass": "None"
+            },
+            "hidden": "Hidden Network:",
+            "hiddenOptions": {
+                "false": "No",
+                "true": "Yes"
+            }
+        },
+        "location": {
+            "latitude": "Latitude:",
+            "longitude": "Longitude:"
+        },
+        "signature": {
+            "title": "Digital Signature",
+            "uploadPrivateKey": "Upload Private Key (ED25519 or RSA):",
+            "dropPrivateKey": "Drag & drop your private key file here or click to browse",
+            "noKeyLoaded": "No key loaded (supports ED25519 and RSA)"
+        },
+        "watermark": {
+            "title": "Watermark Image (optional):",
+            "dropWatermark": "Drag & drop your watermark image here or click to browse",
+            "opacity": "Watermark Opacity:"
+        },
+        "buttons": {
+            "create": "Create QR Code",
+            "decode": "Decode Hidden Message"
+        },
+        "generated": {
+            "title": "Generated QR Code:",
+            "hiddenMessage": "Hidden message will appear here."
+        }
+    },
+    "decode": {
+        "title": "Decode External QR Code",
+        "uploadQR": "Upload a QR Code Image with Hidden Message:",
+        "dropQR": "Drag & drop your QR code image here or click to browse",
+        "uploadedQR": "Uploaded QR Code:",
+        "button": "Decode Hidden Message",
+        "message": "Hidden message will appear here."
+    },
+    "verify": {
+        "title": "Verify QR Code Signature",
+        "uploadQR": "Upload a QR Code Image to Verify:",
+        "dropQR": "Drag & drop your QR code image here or click to browse",
+        "uploadPublicKey": "Upload Public Key (ED25519 or RSA):",
+        "dropPublicKey": "Drag & drop your public key file here or click to browse",
+        "noKeyLoaded": "No key loaded (supports ED25519 and RSA)",
+        "uploadedQR": "Uploaded QR Code:",
+        "button": "Verify Signature",
+        "result": "Load a QR code and public key to verify signature."
+    },
+    "fileUpload": {
+        "remove": "Remove File",
+        "dragDrop": "Drag & drop your file here or click to browse"
+    }
+}
